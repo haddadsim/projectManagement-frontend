@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectItems from './Project/ProjectItems';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CreateProjectButton from './Project/CreateProjectButton';
 
 const Dashboard = () => (
   <div className="projects">
@@ -8,12 +9,11 @@ const Dashboard = () => (
       <div className="row">
         <div className="col-md-12">
           <h1 className="display-4 text-center">Projects</h1>
-          <br />
-          <a href="ProjectForm.html" className="btn btn-lg btn-info">
-                Create a Project
-          </a>
-          <br />
+
+
+          <CreateProjectButton />
           <hr />
+
           <ProjectItems />
         </div>
       </div>
