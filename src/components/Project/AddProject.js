@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+/* eslint-disable no-restricted-globals */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const AddProject = () => {
+import createProject from '../../Actions/projectActions';
+
+const AddProject = (props) => {
   const [values, setValues] = useState({
-    projectName: '', projectIdentifier: '', description: '', startDate: '', endDate: '',
+    projectName: '', projectIdentifier: '', description: '', startDate: '', endDate: '', errors: {},
   });
+
+  useEffect(() => {
+    if (props.errors) {
+      setValues({ ...values, errors: props.errors });
+    }
+  }, [props.errors]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +34,8 @@ const AddProject = () => {
       startDate: values.startDate,
       endDate: values.endDate,
     };
-    console.log(newProject);
+
+    props.createProject(newProject);
   };
 
 
@@ -29,6 +45,7 @@ const AddProject = () => {
         <div className="row">
           <div className="col-md-8 m-auto">
             <h5 className="display-4 text-center">Create / Edit Project form</h5>
+
             <hr />
             <form onSubmit={onSubmit}>
               <div className="form-group">
@@ -41,6 +58,7 @@ const AddProject = () => {
                   onChange={onChange}
                   required
                 />
+                <p>{values.errors.projectName}</p>
               </div>
               <div className="form-group">
                 <input
@@ -52,6 +70,7 @@ const AddProject = () => {
                   onChange={onChange}
                   required
                 />
+                <p>{values.errors.projectIdentifier}</p>
               </div>
 
               <div className="form-group">
@@ -84,6 +103,7 @@ const AddProject = () => {
                   value={values.endDate}
                   onChange={onChange}
                 />
+                <p>{values.errors.description}</p>
               </div>
 
               <input
@@ -99,5 +119,17 @@ const AddProject = () => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  errors: state.errors,
+});
 
-export default AddProject;
+AddProject.defaultProps = {
+  errors: {},
+};
+
+AddProject.propTypes = {
+  createProject: PropTypes.func.isRequired,
+  errors: PropTypes.objectOf({}),
+};
+
+export default connect(mapStateToProps, { createProject })(AddProject);
