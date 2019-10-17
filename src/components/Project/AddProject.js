@@ -6,6 +6,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
+
 
 import createProject from '../../Actions/projectActions';
 
@@ -51,37 +53,44 @@ const AddProject = (props) => {
               <div className="form-group">
                 <input
                   type="text"
-                  className="form-control form-control-lg "
+                  className={classnames('form-control form-control-lg ', {
+                    'is-invalid': values.errors.projectName,
+                  })}
                   placeholder="Project Name"
                   name="projectName"
                   value={values.projectName}
                   onChange={onChange}
                   required
                 />
-                <p>{values.errors.projectName}</p>
+                {values.errors.projectName && (<div className="invalid-feedback">{values.errors.projectName}</div>)}
               </div>
               <div className="form-group">
                 <input
                   type="text"
-                  className="form-control form-control-lg"
+                  className={classnames('form-control form-control-lg ', {
+                    'is-invalid': values.errors.projectIdentifier,
+                  })}
                   placeholder="Unique Project ID"
                   name="projectIdentifier"
                   value={values.projectIdentifier}
                   onChange={onChange}
                   required
                 />
-                <p>{values.errors.projectIdentifier}</p>
+                {values.errors.projectIdentifier && (<div className="invalid-feedback">{values.errors.projectIdentifier}</div>)}
               </div>
 
               <div className="form-group">
                 <textarea
-                  className="form-control form-control-lg"
+                  className={classnames('form-control form-control-lg ', {
+                    'is-invalid': values.errors.description,
+                  })}
                   placeholder="Project Description"
                   name="description"
                   value={values.description}
                   onChange={onChange}
                   required
                 />
+                {values.errors.description && (<div className="invalid-feedback">{values.errors.description}</div>)}
               </div>
               <h6>Start Date</h6>
               <div className="form-group">
